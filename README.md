@@ -50,23 +50,27 @@ Tab:CreateButton({
     end,
 })
 
--- כפתור לשיגור לקורס הנוכחי (קורס אחד בכל פעם)
+-- כפתור לשיגור לקורס הנוכחי
 Tab:CreateButton({
     Name = "Teleport to Current Finish",
     Callback = function()
-        local currentCourseName = "Bootcamp" -- כאן אתה יכול להכניס את שם הקורס הנוכחי
-        local course = workspace:FindFirstChild("Assets") and workspace.Assets:FindFirstChild(currentCourseName)
+        -- בודקים את כל הקורסים בתוך Assets
+        if workspace:FindFirstChild("Assets") then
+            local assets = workspace.Assets:GetChildren()
 
-        if course then
-            local finish = course:FindFirstChild("Finish")
-            if finish then
-                rootPart.CFrame = finish.CFrame + Vector3.new(0, 3, 0)
-                task.wait(0.1) -- הוספתי השהייה קטנה כדי למנוע בעיות
-            else
-                warn("Finish לא נמצא בקורס: " .. currentCourseName)
+            for _, course in ipairs(assets) do
+                if course:IsA("Model") and course:FindFirstChild("Finish") then
+                    local finish = course.Finish
+                    if finish then
+                        -- שיגור לשחקן לנקודת ה-Finish
+                        rootPart.CFrame = finish.CFrame + Vector3.new(0, 3, 0)
+                        return
+                    end
+                end
             end
+            warn("לא נמצאה Finish באף קורס ב-Assets.")
         else
-            warn("קורס לא נמצא: " .. currentCourseName)
+            warn("לא נמצאו Assets.")
         end
     end,
 })
