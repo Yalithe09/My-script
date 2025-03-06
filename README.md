@@ -30,78 +30,143 @@ local Section = Tab:CreateSection("Quick Teleports")
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 local rootPart = character:WaitForChild("HumanoidRootPart")
-local humanoid = character:WaitForChild("Humanoid")
 
 -- כפתור לשיגור ל-Bag ול-SafetyStatue
 Tab:CreateButton({
     Name = "Teleport to Bag & SafetyStatue",
     Callback = function()
+        -- חפש את האובייקטים Bag ו-SafetyStatue תחת Idols
         local bag = workspace:FindFirstChild("Idols") and workspace.Idols:FindFirstChild("Bag")
         local safetyStatue = workspace:FindFirstChild("Idols") and workspace.Idols:FindFirstChild("SafetyStatue")
 
+        -- אם Bag נמצא ויש לו חלק 'hit'
         if bag and bag:FindFirstChild("hit") then
-            rootPart.CFrame = bag.hit.CFrame + Vector3.new(0, 3, 0)
-            task.wait(1)
+            print("Teleporting to Bag!")
+            rootPart.CFrame = bag.hit.CFrame + Vector3.new(0, 3, 0)  -- שיגור ל-CFrame של hit + גובה קטן
+            task.wait(1)  -- המתן לפני השיגור הבא
+        else
+            warn("Bag or hit part not found!")
         end
 
+        -- אם SafetyStatue נמצא ויש לו חלק 'hit'
         if safetyStatue and safetyStatue:FindFirstChild("hit") then
-            rootPart.CFrame = safetyStatue.hit.CFrame + Vector3.new(0, 3, 0)
+            print("Teleporting to SafetyStatue!")
+            rootPart.CFrame = safetyStatue.hit.CFrame + Vector3.new(0, 3, 0)  -- שיגור ל-CFrame של hit + גובה קטן
+        else
+            warn("SafetyStatue or hit part not found!")
         end
     end,
 })
 
--- כפתור לשיגור לקורס הנוכחי
+-- כפתור לשיגור לכל ה-Finish
 Tab:CreateButton({
-    Name = "Teleport to Current Finish",
+    Name = "Teleport to All Finishes",
     Callback = function()
-        -- בודקים את כל הקורסים בתוך Assets
-        if workspace:FindFirstChild("Assets") then
-            local assets = workspace.Assets:GetChildren()
+        local courses = {
+            "Bootcamp",
+            "Colosseum Climb",
+            "Obstacle Course",
+            "Pond Pier",
+            "Lava Dash",
+            "Hill Hike",
+            "Cliff Diving",
+            "Construct Course",
+            "Rickety Rails",
+            "Rockwall",
+            "Tightrope Obby",
+            "Unstable Savannah",
+            "Cave Chaos"
+        }
 
-            for _, course in ipairs(assets) do
-                if course:IsA("Model") and course:FindFirstChild("Finish") then
-                    local finish = course.Finish
-                    if finish then
-                        -- שיגור לשחקן לנקודת ה-Finish
-                        rootPart.CFrame = finish.CFrame + Vector3.new(0, 3, 0)
-                        return
-                    end
+        if workspace:FindFirstChild("Assets") then
+            for _, courseName in ipairs(courses) do
+                local course = workspace.Assets:FindFirstChild(courseName)
+                if course and course:FindFirstChild("Finish") then
+                    -- סיימנו עם touchinterest
+                    rootPart.CFrame = course.Finish.CFrame + Vector3.new(0, 3, 0)  -- שיגור ישירות ל-Finish
+                    task.wait(0.1) -- הוספתי השהייה קטנה כדי למנוע בעיות
                 end
             end
-            warn("לא נמצאה Finish באף קורס ב-Assets.")
         else
-            warn("לא נמצאו Assets.")
+            warn("Assets לא נמצאו")
         end
     end,
 })
 
--- כפתור לשינוי מהירות
+-- כפתור לשינוי המהירות
 Tab:CreateButton({
     Name = "Set Speed to 18",
     Callback = function()
-        humanoid.WalkSpeed = 18  -- שינוי המהירות ל-18
+        player.Character.Humanoid.WalkSpeed = 18
     end,
 })
 
--- כפתור לחשיפת הצבעות
+-- כפתור להפעיל את Chat Spy
 Tab:CreateButton({
-    Name = "Reveal Votes",
+    Name = "Enable Chat Spy",
     Callback = function()
-        print("Reveal Votes executed.")
+        --[[ 
+        Warning: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
+        ]]
+        
+        enabled = true --chat "/spy" to toggle!
+        spyOnMyself = true --if true will check your messages too
+        public = false --if true will chat the logs publicly (fun, risky)
+        publicItalics = true --if true will use /me to stand out
+        privateProperties = { --customize private logs
+            Color = Color3.fromRGB(0,255,255); 
+            Font = Enum.Font.SourceSansBold;
+            TextSize = 18;
+        }
 
-        local revealInChat = false
+        local StarterGui = game:GetService("StarterGui")
+        local Players = game:GetService("Players")
+        local player = Players.LocalPlayer or Players:GetPropertyChangedSignal("LocalPlayer"):Wait() or Players.LocalPlayer
+        local saymsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("SayMessageRequest")
+        local getmsg = game:GetService("ReplicatedStorage"):WaitForChild("DefaultChatSystemChatEvents"):WaitForChild("OnMessageDoneFiltering")
+        local instance = (_G.chatSpyInstance or 0) + 1
+        _G.chatSpyInstance = instance
 
-        local votes = game:GetService("ReplicatedStorage").Season.Voting.Votes
-        local players = game:GetService("ReplicatedStorage").Season.Players
-
-        local randomPremsg = {"Guys I think ", "idk if its true but maybe ", "hmm if I had to take a guess I'd say ", "you didn't hear this from me but ", "this is random but im pretty sure ", "Do you guys think ", "pretty sure ", "umm so like ", "guys ", "um ", "... I think "}
-
-        votes.ChildAdded:Connect(function(vote)
-            local msg = players[vote.Value].Value.." voted "..players[vote.Name].Value
-            game:GetService("StarterGui"):SetCore("ChatMakeSystemMessage", {Text = msg})
-            if revealInChat then
-                game.ReplicatedStorage.DefaultChatSystemChatEvents.SayMessageRequest:FireServer(randomPremsg[math.random(1, #randomPremsg)]..msg, 'All')
+        local function onChatted(p,msg)
+            if _G.chatSpyInstance == instance then
+                if p==player and msg:lower():sub(1,4)=="/spy" then
+                    enabled = not enabled
+                    wait(0.3)
+                    privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
+                    StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+                elseif enabled and (spyOnMyself==true or p~=player) then
+                    msg = msg:gsub("[\n\r]",''):gsub("\t",' '):gsub("[ ]+",' ')
+                    local hidden = true
+                    local conn = getmsg.OnClientEvent:Connect(function(packet,channel)
+                        if packet.SpeakerUserId==p.UserId and packet.Message==msg:sub(#msg-#packet.Message+1) and (channel=="All" or (channel=="Team" and public==false and Players[packet.FromSpeaker].Team==player.Team)) then
+                            hidden = false
+                        end
+                    end)
+                    wait(1)
+                    conn:Disconnect()
+                    if hidden and enabled then
+                        if public then
+                            saymsg:FireServer((publicItalics and "/me " or '').."{SPY} [".. p.Name .."]: "..msg,"All")
+                        else
+                            privateProperties.Text = "{SPY} [".. p.Name .."]: "..msg
+                            StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+                        end
+                    end
+                end
             end
+        end
+
+        for _,p in ipairs(Players:GetPlayers()) do
+            p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+        end
+        Players.PlayerAdded:Connect(function(p)
+            p.Chatted:Connect(function(msg) onChatted(p,msg) end)
         end)
+        privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
+        StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+        if not player.PlayerGui:FindFirstChild("Chat") then wait(3) end
+        local chatFrame = player.PlayerGui.Chat.Frame
+        chatFrame.ChatChannelParentFrame.Visible = true
+        chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Position+UDim2.new(UDim.new(),chatFrame.ChatChannelParentFrame.Size.Y)
     end,
 })
