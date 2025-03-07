@@ -1,10 +1,10 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "Teleport Hub",
+    Name = "Yali's total roblox drama Script",
     Icon = 0,
-    LoadingTitle = "Teleport GUI",
-    LoadingSubtitle = "by Yahli",
+    LoadingTitle = "Yali's total roblox drama Script",
+    LoadingSubtitle = "by Yali",
     Theme = "Default",
     DisableRayfieldPrompts = false,
     DisableBuildWarnings = false,
@@ -21,8 +21,8 @@ local Window = Rayfield:CreateWindow({
     KeySystem = false
 })
 
-local Tab = Window:CreateTab("Teleports", nil)
-local Section = Tab:CreateSection("Quick Teleports")
+local Tab = Window:CreateTab("Fun cheats", nil)
+local Section = Tab:CreateSection("Trd")
 
 local player = game.Players.LocalPlayer
 local rootPart = player.Character and player.Character:WaitForChild("HumanoidRootPart")
@@ -52,14 +52,14 @@ local function teleportPlayer(player)
 end
 
 Tab:CreateButton({
-    Name = "Teleport to Bag and SafetyStatue",
+    Name = "Teleport to Bag and Safety Statue",
     Callback = function()
         teleportPlayer(player)
     end,
 })
 
 Tab:CreateButton({
-    Name = "Teleport to All Finishes",
+    Name = "Teleport to Finishes in Obbies",
     Callback = function()
         local character = player.Character or player.CharacterAdded:Wait()
         local rootPart = character:FindFirstChild("HumanoidRootPart")
@@ -90,7 +90,7 @@ Tab:CreateButton({
 
 
 Tab:CreateButton({
-    Name = "Set Speed to 18",
+    Name = "Set Speed to 18 (helpful in obbies to pass other people faster)",
     Callback = function()
         if player.Character and player.Character:FindFirstChildOfClass("Humanoid") then
             player.Character.Humanoid.WalkSpeed = 18
@@ -101,7 +101,7 @@ Tab:CreateButton({
 })
 
 Tab:CreateButton({
-    Name = "Enable Chat Spy",
+    Name = "Enable Chat Spy (see privet chats of other people)",
     Callback = function()
         enabled = true
         spyOnMyself = true
@@ -161,7 +161,7 @@ Tab:CreateButton({
 })
 
 Tab:CreateButton({
-    Name = "Reveal Votes",
+    Name = "See Votes (VERY OP and click it ONLY ONCE and then wait for elimination and look at the chat to see the votes for yourself)",
     Callback = function()
         print("Reveal Votes executed.")
 
