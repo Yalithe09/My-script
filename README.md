@@ -61,6 +61,8 @@ Tab:CreateButton({
 Tab:CreateButton({
     Name = "Teleport to All Finishes",
     Callback = function()
+        local character = player.Character or player.CharacterAdded:Wait()
+        local rootPart = character:FindFirstChild("HumanoidRootPart")
         if not rootPart then
             warn("❌ לא נמצא HumanoidRootPart!")
             return
@@ -74,7 +76,7 @@ Tab:CreateButton({
                     if finish and finish:IsA("BasePart") then
                         rootPart.CFrame = finish.CFrame + Vector3.new(0, 5, 0)
                         print("✅ שוגר ל-" .. folder.Name .. " (Finish)")
-                        task.wait(0.5)
+                        task.wait(1) -- הארכתי את ההמתנה שתהיה בטוחה יותר
                     else
                         print("⚠️ אין Finish בתוך " .. folder.Name)
                     end
@@ -85,6 +87,7 @@ Tab:CreateButton({
         end
     end,
 })
+
 
 Tab:CreateButton({
     Name = "Set Speed to 18",
