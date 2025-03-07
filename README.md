@@ -95,17 +95,6 @@ Tab:CreateButton({
             warn("❌ לא נמצא Humanoid לשחקן.")
         end
     end,
-
-
-Tab:CreateButton({
-    Name = "Set Speed to 18",
-    Callback = function()
-        if player.Character and player.Character:FindFirstChildOfClass("Humanoid") then
-            player.Character.Humanoid.WalkSpeed = 18
-        else
-            warn("❌ לא נמצא Humanoid לשחקן.")
-        end
-    end,
 })
 
 Tab:CreateButton({
