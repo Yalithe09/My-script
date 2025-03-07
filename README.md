@@ -101,7 +101,7 @@ Tab:CreateButton({
 })
 
 Tab:CreateButton({
-    Name = "Enable Chat Spy (see privet chats of other people)",
+    Name = "Enable Chat Spy (see private chats of other people)",
     Callback = function()
         enabled = true
         spyOnMyself = true
