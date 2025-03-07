@@ -161,7 +161,7 @@ Tab:CreateButton({
 })
 
 Tab:CreateButton({
-    Name = "See Votes (VERY OP and click it ONLY ONCE and then wait for elimination and look at the chat to see the votes for yourself)",
+    Name = "See Votes (VERY OP and click it ONLY ONCE and then wait for elimination and look in the chat. Only you can see the votes!)",
     Callback = function()
         print("Reveal Votes executed.")
 
