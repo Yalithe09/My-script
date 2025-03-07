@@ -179,3 +179,54 @@ Tab:CreateButton({
         end)
     end,
 })
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+Tab:CreateButton({
+    Name = "Show Usernames",
+    Callback = function()
+        local function createBillboard(player)
+            if player == LocalPlayer then return end -- לא על עצמך
+
+            local function onCharacterAdded(character)
+                local head = character:WaitForChild("Head")
+
+                if head:FindFirstChild("UsernameBillboard") then
+                    head.UsernameBillboard:Destroy()
+                end
+
+                local billboard = Instance.new("BillboardGui")
+                billboard.Name = "UsernameBillboard"
+                billboard.Adornee = head
+                billboard.Parent = head
+                billboard.Size = UDim2.new(0, 200, 0, 50)
+                billboard.StudsOffset = Vector3.new(0, 2.5, 0)
+                billboard.AlwaysOnTop = false -- לא רואים דרך קירות
+                billboard.MaxDistance = 100 -- טווח ההצגה
+
+                local textLabel = Instance.new("TextLabel")
+                textLabel.Parent = billboard
+                textLabel.Size = UDim2.new(1, 0, 1, 0)
+                textLabel.BackgroundTransparency = 1
+                textLabel.Text = player.Name -- ה־Username האמיתי
+                textLabel.TextColor3 = Color3.new(1, 1, 1) -- לבן
+                textLabel.TextScaled = true
+                textLabel.Font = Enum.Font.SourceSansBold
+            end
+
+            player.CharacterAdded:Connect(onCharacterAdded)
+
+            if player.Character then
+                onCharacterAdded(player.Character)
+            end
+        end
+
+        for _, player in ipairs(Players:GetPlayers()) do
+            createBillboard(player)
+        end
+
+        Players.PlayerAdded:Connect(createBillboard)
+    end,
+})
+
