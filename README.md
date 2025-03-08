@@ -180,53 +180,52 @@ Tab:CreateButton({
     end,
 })
 
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-
 Tab:CreateButton({
-    Name = "Show Usernames",
+    Name = "Show Username Above All Players (except me)",
     Callback = function()
-        local function createBillboard(player)
-            if player == LocalPlayer then return end -- לא על עצמך
+        local function addBillboard(plr)
+            if plr == player then return end -- לא להוסיף לעצמי
 
             local function onCharacterAdded(character)
                 local head = character:WaitForChild("Head")
-
-                if head:FindFirstChild("UsernameBillboard") then
-                    head.UsernameBillboard:Destroy()
-                end
+                if head:FindFirstChild("UsernameBillboard") then return end
 
                 local billboard = Instance.new("BillboardGui")
                 billboard.Name = "UsernameBillboard"
-                billboard.Adornee = head
                 billboard.Parent = head
-                billboard.Size = UDim2.new(0, 200, 0, 50)
-                billboard.StudsOffset = Vector3.new(0, 2.5, 0)
-                billboard.AlwaysOnTop = false -- לא רואים דרך קירות
-                billboard.MaxDistance = 100 -- טווח ההצגה
+                billboard.Adornee = head
+                billboard.Size = UDim2.new(0, 100, 0, 25) -- גודל קבוע
+                billboard.StudsOffset = Vector3.new(0, 1.5, 0) -- טיפה מעל הראש אבל לא גבוה מדי
+                billboard.AlwaysOnTop = false -- לא תמיד מעל דברים
+                billboard.MaxDistance = 100 -- מקסימום מרחק להצגה
 
                 local textLabel = Instance.new("TextLabel")
                 textLabel.Parent = billboard
                 textLabel.Size = UDim2.new(1, 0, 1, 0)
                 textLabel.BackgroundTransparency = 1
-                textLabel.Text = player.Name -- ה־Username האמיתי
-                textLabel.TextColor3 = Color3.new(1, 1, 1) -- לבן
-                textLabel.TextScaled = true
+                textLabel.Text = plr.Name
+                textLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+                textLabel.TextStrokeTransparency = 0.5
                 textLabel.Font = Enum.Font.SourceSansBold
+                textLabel.TextScaled = true
             end
 
-            player.CharacterAdded:Connect(onCharacterAdded)
-
-            if player.Character then
-                onCharacterAdded(player.Character)
+            if plr.Character then
+                onCharacterAdded(plr.Character)
             end
+            plr.CharacterAdded:Connect(onCharacterAdded)
         end
 
-        for _, player in ipairs(Players:GetPlayers()) do
-            createBillboard(player)
+        -- לשחקנים שכבר במשחק
+        for _, plr in ipairs(game.Players:GetPlayers()) do
+            addBillboard(plr)
         end
 
-        Players.PlayerAdded:Connect(createBillboard)
+        -- לשחקנים חדשים
+        game.Players.PlayerAdded:Connect(function(plr)
+            addBillboard(plr)
+        end)
     end,
 })
+
 
