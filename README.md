@@ -195,7 +195,7 @@ Tab:CreateButton({
                 billboard.Parent = head
                 billboard.Adornee = head
                 billboard.Size = UDim2.new(0, 100, 0, 25) -- גודל קבוע
-                billboard.StudsOffset = Vector3.new(0, 1.5, 0) -- טיפה מעל הראש אבל לא גבוה מדי
+                billboard.StudsOffset = Vector3.new(0, 1.7, 0) -- טיפה מעל הראש אבל לא גבוה מדי
                 billboard.AlwaysOnTop = false -- לא תמיד מעל דברים
                 billboard.MaxDistance = 100 -- מקסימום מרחק להצגה
 
