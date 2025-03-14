@@ -226,7 +226,7 @@ Tab:CreateToggle({
 })
 
 Tab:CreateToggle({
-    Name = "Enable Krypton Script",
+    Name = "CRASH THE GAME!!! (respawn for stopping it with toggle off)",
     CurrentValue = false,
     Flag = "KryptonToggle",
     Callback = function(Value)
