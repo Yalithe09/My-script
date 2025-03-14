@@ -225,7 +225,7 @@ Tab:CreateToggle({
     end,
 })
 
-local Toggle = Tab:CreateToggle({
+Tab:CreateToggle({
     Name = "Enable Krypton Script",
     CurrentValue = false,
     Flag = "KryptonToggle",
