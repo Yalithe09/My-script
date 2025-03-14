@@ -224,6 +224,38 @@ Tab:CreateToggle({
         end
     end,
 })
+local Tab = Window:CreateTab("Main", 4483362458)
+
+local Toggle = Tab:CreateToggle({
+    Name = "Enable Krypton Script",
+    CurrentValue = false,
+    Flag = "KryptonToggle",
+    Callback = function(Value)
+        if Value then
+            KryptonConfiguration = {
+                ReturnOnDeath = true,
+                Flinging = true,
+                FakeRigScale = 1,
+                SetCharacter = true,
+                Animations = true,
+                WaitTime = 0.2501,
+                TeleportOffsetRadius = 20,
+                NoCollisions = true,
+                AntiVoiding = true,
+                SetSimulationRadius = true,
+                DisableCharacterScripts = true,
+                AccessoryFallbackDefaults = true,
+                OverlayFakeCharacter = true,
+                NoBodyNearby = true,
+                LimitHatsPerLimb = true,
+                ShowClientHats = true,
+                RigName = "Tetris",
+                Hats = nil,
+            }
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/KadeTheExploiter/Krypton/main/Module.luau"))()
+        end
+    end,
+})
 Tab:CreateToggle({
     Name = "Walk on Water",
     Default = false,
