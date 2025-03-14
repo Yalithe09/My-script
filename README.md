@@ -224,7 +224,6 @@ Tab:CreateToggle({
         end
     end,
 })
-local Tab = Window:CreateTab("Main", 4483362458)
 
 local Toggle = Tab:CreateToggle({
     Name = "Enable Krypton Script",
