@@ -1315,8 +1315,7 @@ local function KryptonInit()
 end
 
 return KryptonInit()
-end
-קק
+end,
 })
 
 Tab:CreateToggle({
