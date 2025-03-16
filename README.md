@@ -231,10 +231,6 @@ Tab:CreateToggle({
     Flag = "KryptonToggle",
     Callback = function(Value)
         if Value then
--- \\ Krypton Reanimate, Author: @xyzkade/@kade4702. https://github.com/KadeTheExploiter/Krypton/ // 
--- || GELATEK IS IN FACT THERE. | 1.7 After 5 months..
--- // Defining Variables: Settings
-
 KryptonConfiguration = {
 	ReturnOnDeath = true,
 	Flinging = true,
