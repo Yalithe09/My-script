@@ -226,54 +226,57 @@ Tab:CreateToggle({
 })
 
 Tab:CreateButton({
-    Name = "Enable Krypton Reanimate",
-    Callback = function(state)
-            KryptonConfiguration = {
-                ReturnOnDeath = true,
-                Flinging = true,
-                FakeRigScale = 1,
-                SetCharacter = true,
-                PresetFling = true,
-                Animations = true,
-                WaitTime = 0.2501,
-                TeleportOffsetRadius = 20,
-                NoCollisions = true,
-                AntiVoiding = true,
-                SetSimulationRadius = true,
-                DisableCharacterScripts = true,
-                AccessoryFallbackDefaults = true,
-                OverlayFakeCharacter = true,
-                NoBodyNearby = true,
-                LimitHatsPerLimb = true,
-                ShowClientHats = true,
-                RigName = "Tetris",
-                Hats = nil,
-            }
+    Name = "Crash the game",
+    Callback = function()
 
-            local function KryptonInit()
-                if not game.Loaded then
-                    game.Loaded:Wait()
-                end 
+KryptonConfiguration = {
+	ReturnOnDeath = true,
+	Flinging = true,
+	FakeRigScale = 1,
+	SetCharacter = true,
+	PresetFling = true,
+	Animations = true,
+	WaitTime = 0.2501,
+	TeleportOffsetRadius = 20,
+	NoCollisions = true,
+	AntiVoiding = true,
+	SetSimulationRadius = true,
+	DisableCharacterScripts = true,
+	AccessoryFallbackDefaults = true,
+	OverlayFakeCharacter = true,
+	NoBodyNearby = true,
+	LimitHatsPerLimb = true,
+	ShowClientHats = true,
+	RigName = "Tetris",
+	Hats = nil,
+}
 
-                local Config = KryptonConfiguration or Configuration or {}
-                local WaitTime = Config.WaitTime or 0.25; 
-                local Flinging = Config.Flinging
-                local Animations = Config.Animations
-                local AntiVoiding = Config.AntiVoiding 
-                local SetCharacter = Config.SetCharacter 
-                local NoBodyNearby = Config.NoBodyNearby
-                local ReturnOnDeath = Config.ReturnOnDeath 
-                local ShowClientHats = Config.ShowClientHats 
-                local FakeRigScale = Config.FakeRigScale or 1
-                local LimitHatsPerLimb = Config.LimitHatsPerLimb
-                local PresetFling = Flinging and Config.PresetFling 
-                local NoCollisions = Config.NoCollisions or Flinging
-                local SetSimulationRadius = Config.SetSimulationRadius
-                local OverlayFakeCharacter = Config.OverlayFakeCharacter
-                local DisableCharacterScripts = Config.DisableCharacterScripts 
-                local TeleportOffsetRadius = Config.TeleportOffsetRadius or 12
-                local AccessoryFallbackDefaults = Config.AccessoryFallbackDefaults
-                local RigName = Config.RigName or "Evolution, it must've passed you by."
+local function KryptonInit()
+	if not game.Loaded then
+		game.Loaded:Wait()
+	end 
+
+	local Config = KryptonConfiguration or Configuration or {}
+
+	local WaitTime = Config.WaitTime or 0.25; 
+	local Flinging = Config.Flinging
+	local Animations = Config.Animations
+	local AntiVoiding = Config.AntiVoiding 
+	local SetCharacter = Config.SetCharacter 
+	local NoBodyNearby = Config.NoBodyNearby
+	local ReturnOnDeath = Config.ReturnOnDeath 
+	local ShowClientHats = Config.ShowClientHats 
+	local FakeRigScale = Config.FakeRigScale or 1
+	local LimitHatsPerLimb = Config.LimitHatsPerLimb
+	local PresetFling = Flinging and Config.PresetFling 
+	local NoCollisions = Config.NoCollisions or Flinging
+	local SetSimulationRadius = Config.SetSimulationRadius
+	local OverlayFakeCharacter = Config.OverlayFakeCharacter
+	local DisableCharacterScripts = Config.DisableCharacterScripts 
+	local TeleportOffsetRadius = Config.TeleportOffsetRadius or 12
+	local AccessoryFallbackDefaults = Config.AccessoryFallbackDefaults
+	local RigName = Config.RigName or "Evolution, it must've passed you by."
+
 	local DefaultHats = {
 		["Right Arm"] = {
 			{Texture = "14255544465", Mesh = "14255522247", Name = "RARM", Offset = CFrame.Angles(0, 0, math.rad(90))},
@@ -1290,9 +1293,6 @@ Tab:CreateButton({
 end
 
 return KryptonInit()
-
-})
-
 
 
 Tab:CreateToggle({
