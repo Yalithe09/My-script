@@ -226,8 +226,30 @@ Tab:CreateToggle({
 })
 
 Tab:CreateButton({
-    Name = "Crash the game",
+    Name = "Crash The Game",
     Callback = function()
+KryptonConfiguration = {
+    ReturnOnDeath = true,
+    Flinging = true,
+    FakeRigScale = 1,
+    SetCharacter = true,
+    PresetFling = true,
+    Animations = true,
+    WaitTime = 0.2501,
+    TeleportOffsetRadius = 20,
+    NoCollisions = true,
+    AntiVoiding = true,
+    SetSimulationRadius = true,
+    DisableCharacterScripts = true,
+    AccessoryFallbackDefaults = true,
+    OverlayFakeCharacter = true,
+    NoBodyNearby = true,
+    LimitHatsPerLimb = true,
+    ShowClientHats = true,
+    RigName = "Tetris",
+    Hats = nil,
+}
+
 
 KryptonConfiguration = {
 	ReturnOnDeath = true,
@@ -1293,6 +1315,8 @@ local function KryptonInit()
 end
 
 return KryptonInit()
+end
+קק
 })
 
 Tab:CreateToggle({
