@@ -1293,7 +1293,7 @@ local function KryptonInit()
 end
 
 return KryptonInit()
-
+})
 
 Tab:CreateToggle({
     Name = "Walk on Water",
