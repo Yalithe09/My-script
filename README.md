@@ -224,6 +224,7 @@ Tab:CreateToggle({
         end
     end,
 })
+
 Tab:CreateToggle({
     Name = "Enable Krypton Reanimate",
     Default = false,
@@ -1295,6 +1296,8 @@ end
 return KryptonInit()
 
 })
+
+
 
 Tab:CreateToggle({
     Name = "Walk on Water",
