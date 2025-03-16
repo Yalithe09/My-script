@@ -225,13 +225,9 @@ Tab:CreateToggle({
     end,
 })
 
-Tab:CreateToggle({
+Tab:CreateButton({
     Name = "Enable Krypton Reanimate",
-    Default = false,
     Callback = function(state)
-        scriptEnabled = state
-        if scriptEnabled then
-            -- Krypton Reanimate Script (From סקריפט1.docx)
             KryptonConfiguration = {
                 ReturnOnDeath = true,
                 Flinging = true,
